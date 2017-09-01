@@ -1,33 +1,38 @@
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const config = require('./webpack.base');
+const merge = require('webpack-merge');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
-const { root } = require('./helpers');
-const base = require('./webpack.base.js');
+const {
+	root,
+	cssLoaders
+} = require('./helpers');
 
 
-
-
-
-const devConfig = webpackMerge.smart(base, {
-	entry: {
-		app: [
-			'webpack-dev-server/client?http://localhost:' + process.env.PORT,
-			'webpack/hot/only-dev-server'
-		]
-	},
+const devConfig = {
+	devtool: '#cheap-module-eval-source-map',
 	module: {
-		rules: [
-			{
+		rules: [{
 				test: /\.ts$/,
 				use: ['@angularclass/hmr-loader']
+			},
+			{
+				test: /\.(css|scss)$/,
+				exclude: root('src/app/**/*'),
+				use: [ 'style-loader', ...cssLoaders() ]
 			}
 		]
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		new webpack.NamedModulesPlugin()
-	]
-});
+		new FriendlyErrorsWebpackPlugin(),
+	] 
+};
 
 
-module.exports = devConfig;
+
+
+
+
+
+
+module.exports = merge(config, devConfig);

@@ -1,34 +1,45 @@
-
 const webpack = require('webpack');
-const webpackMerge = require('webpack-merge');
+const config = require('./webpack.base');
+const merge = require('webpack-merge');
 
-
-// plugins
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+const SimpleProgressPlugin = require('webpack-simple-progress-plugin');
 
 
-const base = require('./webpack.base.js');
+const {
+	root,
+	cssLoaders
+} = require('./helpers');
 
 
-
-const prodConfig = webpackMerge(base, {
+const prodConfig = {
+	devtool: false,
+	module: {
+		rules: [
+			{
+				test: /\.(css|scss)$/,
+				exclude:  root('src/app/**/*'),
+				use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: cssLoaders() })
+			}
+		]
+	},
 	plugins: [
-		new CleanWebpackPlugin(
-			['dist'],
-			{ root: process.cwd() }
-		),
 		new webpack.optimize.UglifyJsPlugin({
+			output: { comments: false },
+			minimize: true,
 			sourceMap: false,
-			mangle: { keep_fnames: true }
-		})
+			exclude: [/node_modules/]
+		}),
+		new ExtractTextPlugin('style.css'),
+		new CleanWebpackPlugin(['dist'], { root: process.cwd() }),
+		new SimpleProgressPlugin()
 	]
-});
+}
 
 
 
 
-module.exports = prodConfig;
 
 
-
+module.exports = merge(config, prodConfig);

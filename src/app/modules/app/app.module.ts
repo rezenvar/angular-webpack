@@ -22,7 +22,7 @@ import { ROUTES } from './app.routing';
 		BrowserModule,
 		HttpModule,
 		FormsModule,
-		RouterModule.forRoot(ROUTES, { useHash: DEBUG, preloadingStrategy: PreloadAllModules })
+		RouterModule.forRoot(ROUTES, { useHash: __DEBUG__, preloadingStrategy: PreloadAllModules })
 	],
 	declarations: ListAppComponent,
 	providers: ListAppService,

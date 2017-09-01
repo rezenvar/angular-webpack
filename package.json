@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "debug": "cross-env PORT=8888 NODE_ENV=development DEV=false DEBUG=true node webpack/server.js",
-    "dev": "cross-env PORT=8888 NODE_ENV=development DEV=true DEBUG=true node webpack/server.js",
-    "build": "cross-env NODE_ENV=production DEV=false DEBUG=false node webpack/build.js",
-    "unit": "cross-env NODE_ENV=development TEST=true  DEBUG=true DEV=false karma start test/karma.conf.js "
+    "debug": "cross-env PORT=8288 NODE_ENV=development __DEV__=false __DEBUG__=true  webpack-dev-server --config webpack/webpack.server.js ",
+    "dev": "cross-env PORT=8288 NODE_ENV=development __DEV__=true __DEBUG__=true  webpack-dev-server --config webpack/webpack.server.js ",
+    "build": "cross-env NODE_ENV=production __DEV__=false __DEBUG__=false webpack --watch --config webpack/webpack.prod.js"
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +31,7 @@
     "rxjs": "^5.4.2",
     "tslib": "^1.7.1",
     "webpack-merge": "^4.1.0",
+    "webpack-simple-progress-plugin": "0.0.2",
     "zone.js": "^0.8.10"
   },
   "devDependencies": {
@@ -48,6 +48,7 @@
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "file-loader": "^0.10.0",
+    "friendly-errors-webpack-plugin": "^1.6.1",
     "html-loader": "^0.4.0",
     "html-webpack-plugin": "^2.8.1",
     "istanbul-instrumenter-loader": "^0.2.0",
@@ -68,6 +69,7 @@
     "null-loader": "0.1.1",
     "phantomjs": "^2.1.7",
     "postcss-loader": "^1.1.0",
+    "progress-bar-webpack-plugin": "^1.10.0",
     "protractor": "^4.0.10",
     "raw-loader": "0.5.1",
     "remap-istanbul": "^0.6.4",
